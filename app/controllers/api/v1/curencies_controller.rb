@@ -1,11 +1,18 @@
 class Api::V1::CurenciesController < ApplicationController
+  before_action :find_curency, only: %i[show]
+
   def index
     @curencies = Curency.all
-    render json: @curencies
+    paginate json: @curencies, per_page: 10
   end
 
   def show
-    @curency = Curency.find(params[:id])
     render json: @curency
+  end
+
+  private
+
+  def find_curency
+    @curency = Curency.find(params[:id])
   end
 end
